@@ -4,7 +4,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:tarea4/providers/register_form_provider.dart';
 
+import '../services/auth_services.dart';
 import 'login.dart';
 
 
@@ -37,18 +40,20 @@ class _registroState extends State<registro> {
 
   @override
   Widget build(BuildContext context) {
+    final authService = Provider.of<AuthService>(context);
+    final registerform = Provider.of<RegisterFormProvider>(context);
     return Scaffold(
       body: Container(
         color: Colors.white70,
         child: ListView(
             children: <Widget>[
               Form(
-                key: _formKey,
+                key: registerform.formKey,
                 child: Column(
                     children: <Widget>[
                       Container(
                         height: 300,
-                        decoration: BoxDecoration(
+                        decoration: const BoxDecoration(
                             gradient: LinearGradient(
                                 colors: [
                                   Colors.redAccent,
@@ -68,7 +73,7 @@ class _registroState extends State<registro> {
                                 height: 200,
                                 color: Colors.white
                                 ,),
-                              Text(
+                              const Text(
                                 'Registrate para ver tus trackings y estado de tus pedidos',
                                 style: TextStyle(color: Colors.white,
                                     fontSize: 20,
@@ -98,9 +103,9 @@ class _registroState extends State<registro> {
                             padding: const EdgeInsets.all(8.0),
                             child: TextFormField(
                               keyboardType: TextInputType.emailAddress,
-                              style: TextStyle(color: Colors.black,
+                              style: const TextStyle(color: Colors.black,
                                   fontSize: 16),
-                              decoration: InputDecoration(
+                              decoration: const InputDecoration(
                                 hintText: 'Nombre',
                                 hintStyle: TextStyle(
                                     fontSize: 16.0, color: Colors.black),
@@ -126,9 +131,9 @@ class _registroState extends State<registro> {
                           child: Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: TextFormField(
-                              style: TextStyle(color: Colors.black,
+                              style: const TextStyle(color: Colors.black,
                                   fontSize: 16),
-                              decoration: InputDecoration(
+                              decoration: const InputDecoration(
                                 hintText: 'Apellido',
                                 hintStyle: TextStyle(
                                     fontSize: 16.0, color: Colors.black),
@@ -156,9 +161,9 @@ class _registroState extends State<registro> {
                             padding: const EdgeInsets.all(8.0),
                             child: TextFormField(
                               keyboardType: TextInputType.emailAddress,
-                              style: TextStyle(color: Colors.black,
+                              style: const TextStyle(color: Colors.black,
                                   fontSize: 16),
-                              decoration: InputDecoration(
+                              decoration: const InputDecoration(
                                 hintText: 'Cedula',
                                 hintStyle: TextStyle(
                                     fontSize: 16.0, color: Colors.black),
@@ -184,10 +189,11 @@ class _registroState extends State<registro> {
                           child: Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: TextFormField(
+                              onChanged: (value) => registerform.email = value,
                               keyboardType: TextInputType.emailAddress,
-                              style: TextStyle(color: Colors.black,
+                              style: const TextStyle(color: Colors.black,
                                   fontSize: 16),
-                              decoration: InputDecoration(
+                              decoration: const InputDecoration(
                                 hintText: 'Correo',
                                 hintStyle: TextStyle(
                                     fontSize: 16.0, color: Colors.black),
@@ -215,9 +221,9 @@ class _registroState extends State<registro> {
                             padding: const EdgeInsets.all(8.0),
                             child: TextFormField(
                               keyboardType: TextInputType.emailAddress,
-                              style: TextStyle(color: Colors.black,
+                              style: const TextStyle(color: Colors.black,
                                   fontSize: 16),
-                              decoration: InputDecoration(
+                              decoration: const InputDecoration(
                                 hintText: 'Usuario',
                                 hintStyle: TextStyle(
                                     fontSize: 16.0, color: Colors.black),
@@ -244,14 +250,15 @@ class _registroState extends State<registro> {
                           child: Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: TextFormField(
-                              style: TextStyle(color: Colors.black,
+                              onChanged: (value) => registerform.password = value,
+                              style: const TextStyle(color: Colors.black,
                                   fontSize: 16),
                               keyboardType: TextInputType.text,
                               obscureText: passwordVisible,
                               //This will obscure text dynamically
                               decoration: InputDecoration(
                                 hintText: 'Contraseña',
-                                hintStyle: TextStyle(
+                                hintStyle: const TextStyle(
                                     fontSize: 16.0, color: Colors.black),
                                 // Here is key idea
                                 suffixIcon: IconButton(
@@ -278,7 +285,7 @@ class _registroState extends State<registro> {
                           ),
                         ),
                       ),
-                      SizedBox(height: 30,),
+                      const SizedBox(height: 30,),
                       Container(
                         width: MediaQuery
                             .of(context)
@@ -302,7 +309,7 @@ class _registroState extends State<registro> {
                                 //context,
                                 //MaterialPageRoute(builder: (context) => login()),
                               //);
-                              print('datos ingresados');
+                              /* print('datos ingresados');
                               await FirebaseFirestore.instance.collection('users').add({
                                 'nombre': nombre.text,
                                 'apellido': apellido.text,
@@ -315,7 +322,35 @@ class _registroState extends State<registro> {
                               Navigator.push(
                               context,
                              MaterialPageRoute(builder: (context) => login()),
+                             ); */
+                             final resp = await authService.CreateUser(
+                      registerform.email, registerform.password);
+                  if (resp == null) {
+                    
+                    print('Usuario registrado con exito');
+                    
+                    showDialog(
+                        context: context,
+                        builder: (context) {
+                          return const AlertDialog(
+                            title: Text('Usuario registrado con exito'),
+                          );
+                        });
+                        Navigator.push(
+                              context,
+                             MaterialPageRoute(builder: (context) => login()),
                              );
+                  } else {
+                    print('Usuario ya registrado');
+                    showDialog(
+                        context: context,
+                        builder: (context) {
+                          return const AlertDialog(
+                            title: Text('Usuario ya registrado'),
+                          );
+                        });
+                  }
+                  print('${registerform.email} - ${registerform.password}');
 
                             },
 

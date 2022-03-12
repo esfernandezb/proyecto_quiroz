@@ -1,6 +1,14 @@
+import 'dart:convert';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:http/http.dart' as http;
+
 class AuthService with ChangeNotifier {
   final String _baseUrl = 'identitytoolkit.googleapis.com';
-  final String _apiKey = 'AIzaSyA-XCaDcpO7BOF8rV7BBeh4JN_NGgRNS0I';
+  final String _apiKey = 'AIzaSyAWFj9Rxn7ZiYS9Snm-Sbqw_TKETgYSA_U';
 
   final storage = FlutterSecureStorage();
 
@@ -24,6 +32,14 @@ class AuthService with ChangeNotifier {
     //Si al registrarnos obtenemos un idToken retornara null
     //Si el usuario ya esta registrado retornara un error
     if (decodeResp.containsKey('idToken')) {
+      User? user = FirebaseAuth.instance.currentUser;
+
+         await FirebaseFirestore.instance
+            .collection("users")
+            .doc(user?.uid)
+            .set({
+          'uid': user?.uid,
+        });
       //Si obtenemos el idToken
       //Guardamos el token en el storage
       /* await storage.write(key: 'key', value: decodeResp['isToken']); */
@@ -57,6 +73,7 @@ class AuthService with ChangeNotifier {
       //Si obtenemos el idToken
       //Guardamos el token en el storage
       await storage.write(key: 'token', value: decodeResp['idToken']);
+      
       return null;
     } else {
       return decodeResp['error']['message'];

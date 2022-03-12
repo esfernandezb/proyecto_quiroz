@@ -1,6 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:tarea4/providers/login_form_providers.dart';
+import 'package:tarea4/services/auth_services.dart';
 import 'package:tarea4/src/home.dart';
 import 'package:tarea4/src/registro.dart';
 
@@ -41,7 +44,8 @@ class _loginState extends State<login> {
     }
   }
   Widget build(BuildContext context) {
-
+    final loginForm = Provider.of<LoginFormProvider>(context);
+    final authService = Provider.of<AuthService>(context);
     return Scaffold(
       body: Container(
         color: Colors.white,
@@ -72,14 +76,14 @@ class _loginState extends State<login> {
                           },
                           style: TextStyle(color: Colors.black,fontSize: 16),
                           //onSaved: (input) => email = input!,
-                          decoration: InputDecoration(
+                          decoration: const InputDecoration(
                             hintText: 'Usuario',
                             hintStyle: TextStyle(fontSize: 16.0, color: Colors.black),
                           ),
                         ),
                       ),
                     ),
-                    SizedBox( height: 12,),
+                    const SizedBox( height: 12,),
                     Container(
                       width: MediaQuery.of(context).size.width,
                       height: 50,
@@ -91,14 +95,14 @@ class _loginState extends State<login> {
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: TextFormField(
-                          style: TextStyle(color: Colors.black,
+                          style: const TextStyle(color: Colors.black,
                               fontSize: 16),
                           keyboardType: TextInputType.text,
                           obscureText: passwordVisible,
                           onSaved: (input) => password = input!,
                           decoration: InputDecoration(
                             hintText: 'Contraseña',
-                            hintStyle: TextStyle(
+                            hintStyle: const TextStyle(
                                 fontSize: 16.0, color: Colors.black),
                             // Here is key idea
                             suffixIcon: IconButton(
@@ -125,17 +129,43 @@ class _loginState extends State<login> {
                     Container(
                       width: MediaQuery.of(context).size.width,
                       height: 50,
-                      child: RaisedButton( shape: new RoundedRectangleBorder(
+                      child: RaisedButton( shape: RoundedRectangleBorder(
                           borderRadius: new BorderRadius.circular(5.0)),
                         disabledColor: Colors.orange,
                         child: Text("Iniciar sesión",style: TextStyle(fontStyle: FontStyle.normal,fontSize:16,fontWeight: FontWeight.bold,color: Colors.black),),
                         splashColor: Colors.orange,
                         color: Colors.orange,
-                          onPressed: () {
-                            Navigator.push(
+                          onPressed: () async {
+                            final respuesta = await authService.LoginUser(
+                    loginForm.email, loginForm.password);
+                if (respuesta == null) {
+                  showDialog(
+                      context: context,
+                      builder: (context) {
+                        return const AlertDialog(
+                          title:
+                              Text('Se ha iniciado sesion con exito'),
+                        );
+                      });
+                  Navigator.push(
                               context,
                               MaterialPageRoute(builder: (context) => singIn()),
                             );
+                } else {
+                  showDialog(
+                      context: context,
+                      builder: (context) {
+                        return const AlertDialog(
+                          title:
+                              Text('Error, usuario o contraseña incorrectos'),
+                        );
+                      });
+                }
+                print('${loginForm.email} - ${loginForm.password}');
+                            /* Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => singIn()),
+                            ); */
                           },
                       ),
                     ),
