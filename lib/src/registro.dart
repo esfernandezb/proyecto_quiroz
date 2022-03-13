@@ -1,13 +1,8 @@
 
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_storage/firebase_storage.dart';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:tarea4/providers/register_form_provider.dart';
 
-import '../services/auth_services.dart';
 import 'login.dart';
 
 
@@ -17,22 +12,15 @@ class registro extends StatefulWidget {
 }
 
 class _registroState extends State<registro> {
-
-  final _formKey = GlobalKey<FormState>();
-
-  var email = TextEditingController();
-  var nombre = TextEditingController();
-  var apellido = TextEditingController();
-  var cedula = TextEditingController();
-  var usuario = TextEditingController();
-  var password = TextEditingController ();
   bool _obscureText = true;
   bool passwordVisible= true;
+
   void _toggle() {
     setState(() {
       _obscureText = !_obscureText;
     });
   }
+
   void initState() {
     passwordVisible = false;
     super.initState();
@@ -40,20 +28,17 @@ class _registroState extends State<registro> {
 
   @override
   Widget build(BuildContext context) {
-    final authService = Provider.of<AuthService>(context);
-    final registerform = Provider.of<RegisterFormProvider>(context);
     return Scaffold(
       body: Container(
         color: Colors.white70,
         child: ListView(
             children: <Widget>[
               Form(
-                key: registerform.formKey,
                 child: Column(
                     children: <Widget>[
                       Container(
                         height: 300,
-                        decoration: const BoxDecoration(
+                        decoration: BoxDecoration(
                             gradient: LinearGradient(
                                 colors: [
                                   Colors.redAccent,
@@ -73,7 +58,7 @@ class _registroState extends State<registro> {
                                 height: 200,
                                 color: Colors.white
                                 ,),
-                              const Text(
+                              Text(
                                 'Registrate para ver tus trackings y estado de tus pedidos',
                                 style: TextStyle(color: Colors.white,
                                     fontSize: 20,
@@ -103,14 +88,13 @@ class _registroState extends State<registro> {
                             padding: const EdgeInsets.all(8.0),
                             child: TextFormField(
                               keyboardType: TextInputType.emailAddress,
-                              style: const TextStyle(color: Colors.black,
+                              style: TextStyle(color: Colors.black,
                                   fontSize: 16),
-                              decoration: const InputDecoration(
+                              decoration: InputDecoration(
                                 hintText: 'Nombre',
                                 hintStyle: TextStyle(
                                     fontSize: 16.0, color: Colors.black),
                               ),
-                              controller: nombre,
                             ),
                           ),
                         ),
@@ -131,14 +115,13 @@ class _registroState extends State<registro> {
                           child: Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: TextFormField(
-                              style: const TextStyle(color: Colors.black,
+                              style: TextStyle(color: Colors.black,
                                   fontSize: 16),
-                              decoration: const InputDecoration(
+                              decoration: InputDecoration(
                                 hintText: 'Apellido',
                                 hintStyle: TextStyle(
                                     fontSize: 16.0, color: Colors.black),
                               ),
-                              controller: apellido,
                             ),
                           ),
                         ),
@@ -161,14 +144,13 @@ class _registroState extends State<registro> {
                             padding: const EdgeInsets.all(8.0),
                             child: TextFormField(
                               keyboardType: TextInputType.emailAddress,
-                              style: const TextStyle(color: Colors.black,
+                              style: TextStyle(color: Colors.black,
                                   fontSize: 16),
-                              decoration: const InputDecoration(
+                              decoration: InputDecoration(
                                 hintText: 'Cedula',
                                 hintStyle: TextStyle(
                                     fontSize: 16.0, color: Colors.black),
                               ),
-                              controller: cedula,
                             ),
                           ),
                         ),
@@ -189,16 +171,14 @@ class _registroState extends State<registro> {
                           child: Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: TextFormField(
-                              onChanged: (value) => registerform.email = value,
                               keyboardType: TextInputType.emailAddress,
-                              style: const TextStyle(color: Colors.black,
+                              style: TextStyle(color: Colors.black,
                                   fontSize: 16),
-                              decoration: const InputDecoration(
+                              decoration: InputDecoration(
                                 hintText: 'Correo',
                                 hintStyle: TextStyle(
                                     fontSize: 16.0, color: Colors.black),
                               ),
-                              controller: email,
                             ),
                           ),
                         ),
@@ -221,14 +201,13 @@ class _registroState extends State<registro> {
                             padding: const EdgeInsets.all(8.0),
                             child: TextFormField(
                               keyboardType: TextInputType.emailAddress,
-                              style: const TextStyle(color: Colors.black,
+                              style: TextStyle(color: Colors.black,
                                   fontSize: 16),
-                              decoration: const InputDecoration(
+                              decoration: InputDecoration(
                                 hintText: 'Usuario',
                                 hintStyle: TextStyle(
                                     fontSize: 16.0, color: Colors.black),
                               ),
-                              controller: usuario,
                             ),
                           ),
                         ),
@@ -250,15 +229,14 @@ class _registroState extends State<registro> {
                           child: Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: TextFormField(
-                              onChanged: (value) => registerform.password = value,
-                              style: const TextStyle(color: Colors.black,
+                              style: TextStyle(color: Colors.black,
                                   fontSize: 16),
                               keyboardType: TextInputType.text,
                               obscureText: passwordVisible,
                               //This will obscure text dynamically
                               decoration: InputDecoration(
                                 hintText: 'Contraseña',
-                                hintStyle: const TextStyle(
+                                hintStyle: TextStyle(
                                     fontSize: 16.0, color: Colors.black),
                                 // Here is key idea
                                 suffixIcon: IconButton(
@@ -280,12 +258,11 @@ class _registroState extends State<registro> {
                                   },
                                 ),
                               ),
-                              controller: password,
                             ),
                           ),
                         ),
                       ),
-                      const SizedBox(height: 30,),
+                      SizedBox(height: 30,),
                       Container(
                         width: MediaQuery
                             .of(context)
@@ -304,53 +281,11 @@ class _registroState extends State<registro> {
                                 color: Colors.black),),
                             splashColor: Colors.orange,
                             color: Colors.orange,
-                            onPressed: () async {
-                              //Navigator.push(
-                                //context,
-                                //MaterialPageRoute(builder: (context) => login()),
-                              //);
-                              /* print('datos ingresados');
-                              await FirebaseFirestore.instance.collection('users').add({
-                                'nombre': nombre.text,
-                                'apellido': apellido.text,
-                                'cedula': cedula.text,
-                                'correo': email.text,
-                                'usuario': usuario.text,
-                                'contraseña': password.text,
-
-                              });
+                            onPressed: () {
                               Navigator.push(
-                              context,
-                             MaterialPageRoute(builder: (context) => login()),
-                             ); */
-                             final resp = await authService.CreateUser(
-                      registerform.email, registerform.password);
-                  if (resp == null) {
-                    
-                    print('Usuario registrado con exito');
-                    
-                    showDialog(
-                        context: context,
-                        builder: (context) {
-                          return const AlertDialog(
-                            title: Text('Usuario registrado con exito'),
-                          );
-                        });
-                        Navigator.push(
-                              context,
-                             MaterialPageRoute(builder: (context) => login()),
-                             );
-                  } else {
-                    print('Usuario ya registrado');
-                    showDialog(
-                        context: context,
-                        builder: (context) {
-                          return const AlertDialog(
-                            title: Text('Usuario ya registrado'),
-                          );
-                        });
-                  }
-                  print('${registerform.email} - ${registerform.password}');
+                                context,
+                                MaterialPageRoute(builder: (context) => login()),
+                              );
 
                             },
 
@@ -364,5 +299,4 @@ class _registroState extends State<registro> {
       ),
     );
   }
-  }
-
+}

@@ -1,9 +1,5 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:tarea4/providers/login_form_providers.dart';
-import 'package:tarea4/services/auth_services.dart';
 import 'package:tarea4/src/home.dart';
 import 'package:tarea4/src/registro.dart';
 
@@ -13,9 +9,7 @@ class login extends StatefulWidget {
 }
 
 class _loginState extends State<login> {
-  String email = '';
-  String password = '';
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
   bool _obscureText = true;
   bool passwordVisible= true;
 
@@ -32,20 +26,8 @@ class _loginState extends State<login> {
 
   @override
 
-  singIn() async{
-    final formState =_formKey.currentState;
-    if(!formState!.validate())return;
-    formState.save();
-    try{
-      await FirebaseAuth.instance.signInWithEmailAndPassword(email: email, password: password);
-      Navigator.push(context, MaterialPageRoute(builder: (context)=> Home()));
-    }catch(e){
-      print(e);
-    }
-  }
   Widget build(BuildContext context) {
-    final loginForm = Provider.of<LoginFormProvider>(context);
-    final authService = Provider.of<AuthService>(context);
+
     return Scaffold(
       body: Container(
         color: Colors.white,
@@ -55,7 +37,6 @@ class _loginState extends State<login> {
           child: ListView(
 
               children: <Widget> [Form(
-                key: _formKey,
                 child: Column(
                   children: <Widget>[
                     Image.asset('assets/jpg/dabf.png',width: 250, height: 250,),
@@ -71,19 +52,15 @@ class _loginState extends State<login> {
                         padding: const EdgeInsets.all(8.0),
                         child: TextFormField(
                           keyboardType: TextInputType.emailAddress,
-                          onChanged: (value) {
-                            email = value.toString().trim();
-                          },
                           style: TextStyle(color: Colors.black,fontSize: 16),
-                          //onSaved: (input) => email = input!,
-                          decoration: const InputDecoration(
+                          decoration: InputDecoration(
                             hintText: 'Usuario',
                             hintStyle: TextStyle(fontSize: 16.0, color: Colors.black),
                           ),
                         ),
                       ),
                     ),
-                    const SizedBox( height: 12,),
+                    SizedBox( height: 12,),
                     Container(
                       width: MediaQuery.of(context).size.width,
                       height: 50,
@@ -95,14 +72,14 @@ class _loginState extends State<login> {
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: TextFormField(
-                          style: const TextStyle(color: Colors.black,
+                          style: TextStyle(color: Colors.black,
                               fontSize: 16),
                           keyboardType: TextInputType.text,
                           obscureText: passwordVisible,
-                          onSaved: (input) => password = input!,
+                          //This will obscure text dynamically
                           decoration: InputDecoration(
                             hintText: 'Contraseña',
-                            hintStyle: const TextStyle(
+                            hintStyle: TextStyle(
                                 fontSize: 16.0, color: Colors.black),
                             // Here is key idea
                             suffixIcon: IconButton(
@@ -129,44 +106,18 @@ class _loginState extends State<login> {
                     Container(
                       width: MediaQuery.of(context).size.width,
                       height: 50,
-                      child: RaisedButton( shape: RoundedRectangleBorder(
+                      child: RaisedButton( shape: new RoundedRectangleBorder(
                           borderRadius: new BorderRadius.circular(5.0)),
                         disabledColor: Colors.orange,
                         child: Text("Iniciar sesión",style: TextStyle(fontStyle: FontStyle.normal,fontSize:16,fontWeight: FontWeight.bold,color: Colors.black),),
                         splashColor: Colors.orange,
                         color: Colors.orange,
-                          onPressed: () async {
-                            final respuesta = await authService.LoginUser(
-                    loginForm.email, loginForm.password);
-                if (respuesta == null) {
-                  showDialog(
-                      context: context,
-                      builder: (context) {
-                        return const AlertDialog(
-                          title:
-                              Text('Se ha iniciado sesion con exito'),
-                        );
-                      });
-                  Navigator.push(
-                              context,
-                              MaterialPageRoute(builder: (context) => singIn()),
-                            );
-                } else {
-                  showDialog(
-                      context: context,
-                      builder: (context) {
-                        return const AlertDialog(
-                          title:
-                              Text('Error, usuario o contraseña incorrectos'),
-                        );
-                      });
-                }
-                print('${loginForm.email} - ${loginForm.password}');
-                            /* Navigator.push(
-                              context,
-                              MaterialPageRoute(builder: (context) => singIn()),
-                            ); */
-                          },
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => Home()),
+                          );
+                        },
                       ),
                     ),
                     SizedBox( height: 50,),
@@ -198,10 +149,10 @@ class _loginState extends State<login> {
                               child: Text('Registrate',style: TextStyle(color: Colors.orange),),
                               onPressed: () {
 
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(builder: (context) => registro()),
-                                  );
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(builder: (context) => registro()),
+                                );
                               },
                             ),
                           ),
