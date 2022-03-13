@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import 'editar_perfil.dart';
+
 class perfil extends StatelessWidget {
   const perfil({Key? key}) : super(key: key);
 
@@ -41,50 +43,59 @@ class perfil extends StatelessWidget {
                       )
                   )
               ),
+
               Row(
                 children: [
-                  Text('Elenafb', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),),
-                  Icon(Icons.check_circle, color: Colors.blueAccent,)
+                  Icon(Icons.person),
+                  SizedBox(width: 10),
+                  Text('Elena Fernandez'),
                 ],
-              ),
-              Align(
-                alignment: Alignment.centerLeft,
-                child: Text('Elena Fernandez' ),
               ),
 
               SizedBox(height: 10),
               Row(
                 children: [
-                  Icon(Icons.location_on_outlined),
-                  Text('Ecuador.Guayaquil'),
+                  Icon(Icons.credit_card_sharp),
+                  SizedBox(width: 10),
+                  Text('0123456789'),
                 ],
               ),
               SizedBox(height: 10),
               Row(
                 children: [
-                  Icon(Icons.cake_outlined),
-                  Text('Julio 16,2000'),
+                  Icon(Icons.mail),
+                  SizedBox(width: 10),
+                  Text('ee@gmail.com'),
                 ],
               ),
               SizedBox(height: 10),
-              Align(
-                alignment: Alignment.centerLeft,
-                child: Text('Genero Mujer'),
-              ),
+
               Row(
                 children: [
                   Icon(Icons.calendar_today_outlined),
+                  SizedBox(width: 10),
                   Text('Se unió en Diciembre 2021'),
                 ],
               ),
-
-              MaterialButton(
-
-                minWidth: 150.0,
-                height: 40.0,
-                onPressed: () {},
+              SizedBox(height: 20),
+              RaisedButton(shape: new RoundedRectangleBorder(
+                  borderRadius: new BorderRadius.circular(5.0)),
+                disabledColor: Colors.orange,
+                child: Text("Editar Perfil", style: TextStyle(
+                    fontStyle: FontStyle.normal,
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white),),
+                splashColor: Colors.orange,
                 color: Colors.orange,
-                child: Text('Editar Perfil', style: TextStyle(color: Colors.white)),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => editar()),
+                  );
+
+                },
+
               ),
             ],
           ),

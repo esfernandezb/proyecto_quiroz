@@ -179,7 +179,7 @@ class _pedidoState extends State<pedido> {
                               style: TextStyle(color: Colors.black,
                                   fontSize: 16),
                               decoration: InputDecoration(
-                                hintText: 'Tracking',
+                                hintText: 'Shipper',
                                 hintStyle: TextStyle(
                                     fontSize: 16.0, color: Colors.black),
                               ),
@@ -259,7 +259,7 @@ class _pedidoState extends State<pedido> {
                                   color: Colors.grey[300],
                                   child: _image != null
                                       ? Image.file(_image!, fit: BoxFit.cover)
-                                      : const Text('Selecciona imagen'),
+                                      : const Text('Selecciona Factura'),
                                 )
                               ],
                             ),
@@ -309,7 +309,7 @@ class _pedidoState extends State<pedido> {
                           child: RaisedButton(shape: new RoundedRectangleBorder(
                               borderRadius: new BorderRadius.circular(5.0)),
                             disabledColor: Colors.orange,
-                            child: Text("Registrarse", style: TextStyle(
+                            child: Text("Agregar Pedido", style: TextStyle(
                                 fontStyle: FontStyle.normal,
                                 fontSize: 16,
                                 fontWeight: FontWeight.bold,
