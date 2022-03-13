@@ -1,7 +1,8 @@
+import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
 import 'login.dart';
+import 'package:image_picker/image_picker.dart';
 
 
 class pedido extends StatefulWidget {
@@ -10,6 +11,31 @@ class pedido extends StatefulWidget {
 }
 
 class _pedidoState extends State<pedido> {
+
+  File? _image;
+
+  final _picker = ImagePicker();
+  // Implementing the image picker
+
+  Future<void> _openCameraPicker() async {
+    final XFile? pickedImage =
+    await _picker.pickImage(source: ImageSource.camera);
+    if (pickedImage != null) {
+      setState(() {
+        _image = File(pickedImage.path);
+      });
+    }
+  }
+
+  Future<void> _openImagePicker() async {
+    final XFile? pickedImage =
+    await _picker.pickImage(source: ImageSource.gallery);
+    if (pickedImage != null) {
+      setState(() {
+        _image = File(pickedImage.path);
+      });
+    }
+  }
 
 
   @override
@@ -29,7 +55,7 @@ class _pedidoState extends State<pedido> {
                     children: <Widget>[
                       SizedBox(height: 10,),
                       Padding(
-                        padding: const EdgeInsets.all(10.0),
+                        padding: const EdgeInsets.all(5.0),
                         child: Container(
                           width: MediaQuery
                               .of(context)
@@ -42,7 +68,7 @@ class _pedidoState extends State<pedido> {
                               borderRadius: BorderRadius.circular(5.0)
                           ),
                           child: Padding(
-                            padding: const EdgeInsets.all(8.0),
+                            padding: const EdgeInsets.all(5.0),
                             child: TextFormField(
                               keyboardType: TextInputType.emailAddress,
                               style: TextStyle(color: Colors.black,
@@ -57,7 +83,7 @@ class _pedidoState extends State<pedido> {
                         ),
                       ),
                       Padding(
-                        padding: const EdgeInsets.all(10.0),
+                        padding: const EdgeInsets.all(5.0),
                         child: Container(
                           width: MediaQuery
                               .of(context)
@@ -70,7 +96,7 @@ class _pedidoState extends State<pedido> {
                               borderRadius: BorderRadius.circular(5.0)
                           ),
                           child: Padding(
-                            padding: const EdgeInsets.all(8.0),
+                            padding: const EdgeInsets.all(5.0),
                             child: TextFormField(
                               style: TextStyle(color: Colors.black,
                                   fontSize: 16),
@@ -85,7 +111,7 @@ class _pedidoState extends State<pedido> {
                       ),
 
                       Padding(
-                        padding: const EdgeInsets.all(10.0),
+                        padding: const EdgeInsets.all(5.0),
                         child: Container(
                           width: MediaQuery
                               .of(context)
@@ -98,7 +124,7 @@ class _pedidoState extends State<pedido> {
                               borderRadius: BorderRadius.circular(5.0)
                           ),
                           child: Padding(
-                            padding: const EdgeInsets.all(8.0),
+                            padding: const EdgeInsets.all(5.0),
                             child: TextFormField(
                               keyboardType: TextInputType.emailAddress,
                               style: TextStyle(color: Colors.black,
@@ -113,7 +139,7 @@ class _pedidoState extends State<pedido> {
                         ),
                       ),
                       Padding(
-                        padding: const EdgeInsets.all(10.0),
+                        padding: const EdgeInsets.all(5.0),
                         child: Container(
                           width: MediaQuery
                               .of(context)
@@ -126,7 +152,7 @@ class _pedidoState extends State<pedido> {
                               borderRadius: BorderRadius.circular(5.0)
                           ),
                           child: Padding(
-                            padding: const EdgeInsets.all(8.0),
+                            padding: const EdgeInsets.all(5.0),
                             child: TextFormField(
                               keyboardType: TextInputType.emailAddress,
                               style: TextStyle(color: Colors.black,
@@ -142,7 +168,7 @@ class _pedidoState extends State<pedido> {
                       ),
 
                       Padding(
-                        padding: const EdgeInsets.all(10.0),
+                        padding: const EdgeInsets.all(5.0),
                         child: Container(
                           width: MediaQuery
                               .of(context)
@@ -155,7 +181,7 @@ class _pedidoState extends State<pedido> {
                               borderRadius: BorderRadius.circular(5.0)
                           ),
                           child: Padding(
-                            padding: const EdgeInsets.all(8.0),
+                            padding: const EdgeInsets.all(5.0),
                             child: TextFormField(
                               keyboardType: TextInputType.emailAddress,
                               style: TextStyle(color: Colors.black,
@@ -171,38 +197,52 @@ class _pedidoState extends State<pedido> {
                       ),
 
                       Padding(
-                        padding: const EdgeInsets.all(10.0),
+                        padding: const EdgeInsets.all(5.0),
                         child: Container(
                           width: MediaQuery
                               .of(context)
                               .size
                               .width,
-                          height: 50,
+                          height:400,
                           decoration: BoxDecoration(
                               border: Border.all(color: Colors.white30),
                               color: Colors.white12,
                               borderRadius: BorderRadius.circular(5.0)
                           ),
                           child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: TextFormField(
-                              style: TextStyle(color: Colors.black,
-                                  fontSize: 16),
-                              keyboardType: TextInputType.text,
-                              //This will obscure text dynamically
-                              decoration: InputDecoration(
-                                hintText: 'Factura Compra',
-                                hintStyle: TextStyle(
-                                    fontSize: 16.0, color: Colors.black),
-                                // Here is key idea
-
-                              ),
+                           padding: const EdgeInsets.all(8.0),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    ElevatedButton(
+                                      child: const Text('Selecciona una imagen'),
+                                      onPressed: _openImagePicker,
+                                    ),
+                                    ElevatedButton(
+                                      child: const Text('Toma una imagen'),
+                                      onPressed: _openCameraPicker,
+                                    ),
+                                  ],
+                                ),
+                                Container(
+                                  alignment: Alignment.center,
+                                  width: double.infinity,
+                                  height: 300,
+                                  color: Colors.grey[300],
+                                  child: _image != null
+                                      ? Image.file(_image!, fit: BoxFit.cover)
+                                      : const Text('Selecciona imagen'),
+                                )
+                              ],
                             ),
                           ),
                         ),
-                      ),
+                     ),
                       Padding(
-                        padding: const EdgeInsets.all(10.0),
+                        padding: const EdgeInsets.all(5.0),
                         child: Container(
                           width: MediaQuery
                               .of(context)
@@ -215,7 +255,7 @@ class _pedidoState extends State<pedido> {
                               borderRadius: BorderRadius.circular(5.0)
                           ),
                           child: Padding(
-                            padding: const EdgeInsets.all(8.0),
+                            padding: const EdgeInsets.all(5.0),
                             child: TextFormField(
                               style: TextStyle(color: Colors.black,
                                   fontSize: 16),
@@ -240,7 +280,7 @@ class _pedidoState extends State<pedido> {
                             .width,
                         height: 60,
                         child: Padding(
-                          padding: const EdgeInsets.all(10.0),
+                          padding: const EdgeInsets.all(8.0),
                           child: RaisedButton(shape: new RoundedRectangleBorder(
                               borderRadius: new BorderRadius.circular(5.0)),
                             disabledColor: Colors.orange,

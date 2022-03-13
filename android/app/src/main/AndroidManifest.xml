@@ -1,6 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.tarea4">
-   <application
+    <application
         android:label="tarea4"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">

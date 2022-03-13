@@ -47,6 +47,11 @@ dependencies:
   firebase_storage: ^10.0.3
   http: ^0.13.4
   flutter_secure_storage: ^5.0.2
+  camera: any
+  path: any
+  path_provider: any
+  gallery_saver: any
+  image_picker: ^0.8.4+11
 
 dev_dependencies:
   flutter_test:
