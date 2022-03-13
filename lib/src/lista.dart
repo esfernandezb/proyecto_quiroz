@@ -18,6 +18,7 @@ class lista extends StatelessWidget {
                   child: SvgPicture.asset('assets/svg/slide4.svg'),
                   ),
                 ),
+              Text('ORDENES', style: TextStyle(fontSize: 30),),
               DataTable(
                 sortColumnIndex: 2,
                 sortAscending: false,
