@@ -1,20 +1,15 @@
-
-
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'home.dart';
-import 'login.dart';
 
+class ruta_pedido extends StatefulWidget {
+  const ruta_pedido({Key? key}) : super(key: key);
 
-class editar extends StatefulWidget {
   @override
-  _editarState createState() => _editarState();
+  _ruta_pedidoState createState() => _ruta_pedidoState();
 }
 
-class _editarState extends State<editar> {
-
-
+class _ruta_pedidoState extends State<ruta_pedido> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,92 +20,82 @@ class _editarState extends State<editar> {
               Form(
                 child: Column(
                     children: <Widget>[
-
                       SizedBox(height: 10,),
-                      Padding(
-                        padding: const EdgeInsets.all(10.0),
-                        child: Container(
-                          width: MediaQuery
-                              .of(context)
-                              .size
-                              .width,
-                          height: 50,
-                          decoration: BoxDecoration(
-                              border: Border.all(color: Colors.white30),
-                              color: Colors.white12,
-                              borderRadius: BorderRadius.circular(5.0)
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: TextFormField(
-                              keyboardType: TextInputType.emailAddress,
-                              style: TextStyle(color: Colors.black,
-                                  fontSize: 16),
-                              decoration: InputDecoration(
-                                hintText: 'Nombre',
-                                hintStyle: TextStyle(
-                                    fontSize: 16.0, color: Colors.black),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(10.0),
-                        child: Container(
-                          width: MediaQuery
-                              .of(context)
-                              .size
-                              .width,
-                          height: 50,
-                          decoration: BoxDecoration(
-                              border: Border.all(color: Colors.white30),
-                              color: Colors.white12,
-                              borderRadius: BorderRadius.circular(5.0)
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: TextFormField(
-                              style: TextStyle(color: Colors.black,
-                                  fontSize: 16),
-                              decoration: InputDecoration(
-                                hintText: 'Apellido',
-                                hintStyle: TextStyle(
-                                    fontSize: 16.0, color: Colors.black),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
+
+                      Text("Fecha"),
 
                       Padding(
-                        padding: const EdgeInsets.all(10.0),
-                        child: Container(
-                          width: MediaQuery
-                              .of(context)
-                              .size
-                              .width,
-                          height: 50,
-                          decoration: BoxDecoration(
-                              border: Border.all(color: Colors.white30),
-                              color: Colors.white12,
-                              borderRadius: BorderRadius.circular(5.0)
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
+                            padding: const EdgeInsets.all(5.0),
                             child: TextFormField(
-                              keyboardType: TextInputType.emailAddress,
                               style: TextStyle(color: Colors.black,
                                   fontSize: 16),
                               decoration: InputDecoration(
-                                hintText: 'Correo',
+                                hintText: 'Consignee',
                                 hintStyle: TextStyle(
                                     fontSize: 16.0, color: Colors.black),
                               ),
                             ),
                           ),
-                        ),
-                      ),
+
+                     Padding(
+                            padding: const EdgeInsets.all(5.0),
+                            child: TextFormField(
+                              keyboardType: TextInputType.emailAddress,
+                              style: TextStyle(color: Colors.black,
+                                  fontSize: 16),
+                              decoration: InputDecoration(
+                                hintText: 'Carrier',
+                                hintStyle: TextStyle(
+                                    fontSize: 16.0, color: Colors.black),
+                              ),
+                            ),
+                          ),
+
+                         Padding(
+                            padding: const EdgeInsets.all(5.0),
+                            child: TextFormField(
+                              keyboardType: TextInputType.emailAddress,
+                              style: TextStyle(color: Colors.black,
+                                  fontSize: 16),
+                              decoration: InputDecoration(
+                                hintText: 'Shipper',
+                                hintStyle: TextStyle(
+                                    fontSize: 16.0, color: Colors.black),
+                              ),
+                            ),
+                          ),
+
+                     Padding(
+                            padding: const EdgeInsets.all(5.0),
+                            child: TextFormField(
+                              keyboardType: TextInputType.emailAddress,
+                              style: TextStyle(color: Colors.black,
+                                  fontSize: 16),
+                              decoration: InputDecoration(
+                                hintText: 'Valor de la compra',
+                                hintStyle: TextStyle(
+                                    fontSize: 16.0, color: Colors.black),
+                              ),
+                            ),
+                     ),
+
+
+                     Padding(
+                            padding: const EdgeInsets.all(5.0),
+                            child: TextFormField(
+                              style: TextStyle(color: Colors.black,
+                                  fontSize: 16),
+                              keyboardType: TextInputType.text,
+                              //This will obscure text dynamically
+                              decoration: InputDecoration(
+                                hintText: 'Detalle Compra',
+                                hintStyle: TextStyle(
+                                    fontSize: 16.0, color: Colors.black),
+                                // Here is key idea
+
+                              ),
+                            ),
+                          ),
 
                       SizedBox(height: 30,),
                       Container(
@@ -120,11 +105,11 @@ class _editarState extends State<editar> {
                             .width,
                         height: 60,
                         child: Padding(
-                          padding: const EdgeInsets.all(10.0),
+                          padding: const EdgeInsets.all(8.0),
                           child: RaisedButton(shape: new RoundedRectangleBorder(
                               borderRadius: new BorderRadius.circular(5.0)),
                             disabledColor: Colors.orange,
-                            child: Text("Actualizar", style: TextStyle(
+                            child: Text("Volver a Home", style: TextStyle(
                                 fontStyle: FontStyle.normal,
                                 fontSize: 16,
                                 fontWeight: FontWeight.bold,

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:tarea4/src/ruta_pedido.dart';
 
 
 class lista extends StatelessWidget {
@@ -20,8 +21,7 @@ class lista extends StatelessWidget {
                 ),
               Text('ORDENES', style: TextStyle(fontSize: 30),),
               DataTable(
-                sortColumnIndex: 2,
-                sortAscending: false,
+                showCheckboxColumn: false,
                 columns: [
                   DataColumn(label: Text("Orden")),
                   DataColumn(label: Text("Estado")),
@@ -33,8 +33,16 @@ class lista extends StatelessWidget {
                       cells: [
                         DataCell(Text("001")),
                         DataCell(Text("Completado")),
-                        DataCell(Text("AliExpress"))
-                      ]),
+                        DataCell(Text("AliExpress"),
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (context) => ruta_pedido()),
+                              );
+                            }
+                        )
+                      ],
+                  ),
                   DataRow(cells: [
                     DataCell(Text("002")),
                     DataCell(Text("Pendiente")),
