@@ -17,6 +17,7 @@ class _pedidoState extends State<pedido> {
   final _picker = ImagePicker();
   // Implementing the image picker
 
+
   Future<void> _openCameraPicker() async {
     final XFile? pickedImage =
     await _picker.pickImage(source: ImageSource.camera);
@@ -35,6 +36,24 @@ class _pedidoState extends State<pedido> {
         _image = File(pickedImage.path);
       });
     }
+  }
+
+  DateTime selectedDate = DateTime.now();
+
+  Future<void> _selectDate(BuildContext context) async {
+    final DateTime? picked = await showDatePicker(
+
+        context: context,
+        initialDate: selectedDate,
+        firstDate: DateTime(2015, 8),
+        lastDate: DateTime(2101));
+
+    if (picked != null && picked != selectedDate) {
+      setState(() {
+        selectedDate = picked;
+      });
+    }
+
   }
 
 
@@ -61,7 +80,7 @@ class _pedidoState extends State<pedido> {
                               .of(context)
                               .size
                               .width,
-                          height: 50,
+                          height: 80,
                           decoration: BoxDecoration(
                               border: Border.all(color: Colors.white30),
                               color: Colors.white12,
@@ -69,15 +88,17 @@ class _pedidoState extends State<pedido> {
                           ),
                           child: Padding(
                             padding: const EdgeInsets.all(5.0),
-                            child: TextFormField(
-                              keyboardType: TextInputType.emailAddress,
-                              style: TextStyle(color: Colors.black,
-                                  fontSize: 16),
-                              decoration: InputDecoration(
-                                hintText: 'Date Shipper',
-                                hintStyle: TextStyle(
-                                    fontSize: 16.0, color: Colors.black),
-                              ),
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: <Widget>[
+                                Text("${selectedDate.toLocal()}".split(' ')[0]),
+                                RaisedButton(
+                                  onPressed: () => _selectDate(context),
+                                  color: Colors.deepOrange[400],
+                                  textColor: Colors.white,
+                                  child: Text('Select date'),
+                                ),
+                              ],
                             ),
                           ),
                         ),
@@ -218,10 +239,14 @@ class _pedidoState extends State<pedido> {
                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
                                     ElevatedButton(
+                                      style: ElevatedButton.styleFrom(
+                                          primary: Colors.deepOrange[400],),
                                       child: const Text('Selecciona una imagen'),
                                       onPressed: _openImagePicker,
                                     ),
                                     ElevatedButton(
+                                      style: ElevatedButton.styleFrom(
+                                        primary: Colors.deepOrange[400],),
                                       child: const Text('Toma una imagen'),
                                       onPressed: _openCameraPicker,
                                     ),
@@ -310,3 +335,4 @@ class _pedidoState extends State<pedido> {
     );
   }
 }
+

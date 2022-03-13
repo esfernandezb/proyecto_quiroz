@@ -52,6 +52,7 @@ dependencies:
   path_provider: any
   gallery_saver: any
   image_picker: ^0.8.4+11
+  syncfusion_flutter_datepicker: ^19.4.55
 
 dev_dependencies:
   flutter_test:
