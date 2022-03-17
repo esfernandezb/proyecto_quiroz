@@ -13,8 +13,14 @@ class editar extends StatefulWidget {
 }
 
 class _editarState extends State<editar> {
+  var usuario ="";
+  void initState(){
+    _getUser();
+    super.initState();
+  }
+  _getUser(){
 
-
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(

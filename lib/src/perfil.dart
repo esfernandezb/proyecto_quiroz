@@ -1,10 +1,23 @@
+import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
-import 'editar_perfil.dart';
+import 'package:path/path.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import '../services/sessions.dart';
+import 'intro.dart';
 
 class perfil extends StatelessWidget {
   const perfil({Key? key}) : super(key: key);
+
+  _logout() async{
+    var res = await LogOut().postData('logout');
+    var body = res.body;
+    print(body);
+    SharedPreferences localStorage = await SharedPreferences.getInstance();
+    localStorage.setString('token','');
+    localStorage.setString('user', '');
+
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -81,7 +94,7 @@ class perfil extends StatelessWidget {
               RaisedButton(shape: new RoundedRectangleBorder(
                   borderRadius: new BorderRadius.circular(5.0)),
                 disabledColor: Colors.orange,
-                child: Text("Editar Perfil", style: TextStyle(
+                child: Text("Log out", style: TextStyle(
                     fontStyle: FontStyle.normal,
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
@@ -89,9 +102,10 @@ class perfil extends StatelessWidget {
                 splashColor: Colors.orange,
                 color: Colors.orange,
                 onPressed: () {
+                  _logout();
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => editar()),
+                    MaterialPageRoute(builder: (context) => intro()),
                   );
 
                 },

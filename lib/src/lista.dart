@@ -1,9 +1,60 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:tarea4/src/ruta_pedido.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:http/http.dart' as http;
 
 
-class lista extends StatelessWidget {
+class lista extends StatefulWidget {
+
+  static final String _url = "http://192.168.1.10:8000/api/order";
+
+  @override
+  State<lista> createState() => _listaState();
+}
+
+class _listaState extends State<lista> {
+  _getToken() async{
+    SharedPreferences localStorage = await SharedPreferences.getInstance();
+    var token = localStorage.getString('token');
+    return token;
+  }
+  List<Map> ordenes =[];
+
+  getUserOrder() async{
+    var token = await _getToken();
+    var response = await http.get(Uri.parse(lista._url),
+      headers: {
+        'Accept': 'application/json',
+        'Authorization': 'Bearer '+token
+      },
+    );
+    var jsonData =jsonDecode(response.body);
+    print(jsonData);
+
+
+    for(var u in jsonData){
+      Map orden =
+      {
+        "id": u["id"],
+        "status": u["status"],
+        "carrier": u["carrier"]
+      };
+      ordenes.add(orden);
+    }
+    setState(() {
+
+    });
+
+  }
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getUserOrder();
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -20,53 +71,40 @@ class lista extends StatelessWidget {
                   ),
                 ),
               Text('ORDENES', style: TextStyle(fontSize: 30),),
-              DataTable(
-                showCheckboxColumn: false,
-                columns: [
-                  DataColumn(label: Text("Orden")),
-                  DataColumn(label: Text("Estado")),
-                  DataColumn(label: Text("Courier"),),
-                ],
-                rows: [
-                  DataRow(
-                      selected: true,
-                      cells: [
-                        DataCell(Text("001")),
-                        DataCell(Text("Completado")),
-                        DataCell(Text("AliExpress"),
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(builder: (context) => ruta_pedido()),
-                              );
-                            }
-                        )
-                      ],
-                  ),
-                  DataRow(cells: [
-                    DataCell(Text("002")),
-                    DataCell(Text("Pendiente")),
-                    DataCell(Text("Amazon"))
-                  ]),
-                  DataRow(
-                      cells: [
-                        DataCell(Text("003")),
-                        DataCell(Text("Completado")),
-                        DataCell(Text("AliExpress"))
-                      ]),
-                  DataRow(cells: [
-                    DataCell(Text("004")),
-                    DataCell(Text("Pendiente")),
-                    DataCell(Text("Amazon"))
-                  ])
-                ],
-              )
+
+              (ordenes.isEmpty? CircularProgressIndicator():_createDataTable())
+
             ],
           ),
       ],
     );
   }
+
+  DataTable _createDataTable() {
+
+    return DataTable(columns: _createColumns(), rows: _createRows());
+  }
+
+  List<DataColumn> _createColumns() {
+    return [
+      DataColumn(label: Text('Orden')),
+      DataColumn(label: Text('Status')),
+      DataColumn(label: Text('Carrier'))
+    ];
+  }
+
+  List<DataRow> _createRows()  {
+    return ordenes
+        .map((orden) => DataRow(cells: [
+      DataCell(Text('#' + orden['id'].toString())),
+      DataCell(Text(orden['status'])),
+      DataCell(Text(orden['carrier']))
+    ]))
+        .toList();
+  }
 }
+
+
 
 class _HeaderWavePainter extends CustomPainter {
 
@@ -101,4 +139,8 @@ class _HeaderWavePainter extends CustomPainter {
     return true;
   }
 
+}
+class Ordenes{
+  final int id; String status; String order;
+  Ordenes(this.id,this.status,this.order);
 }
