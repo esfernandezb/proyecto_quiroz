@@ -1,23 +1,55 @@
-import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:path/path.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../services/sessions.dart';
 import 'intro.dart';
 
-class perfil extends StatelessWidget {
+class perfil extends StatefulWidget {
+
   const perfil({Key? key}) : super(key: key);
+
+  @override
+  State<perfil> createState() => _perfilState();
+}
+
+class _perfilState extends State<perfil> {
+  String? first_name = "";
+
+  String? last_name="";
+
+  String? citizen_card ="";
+
+  String? email="";
 
   _logout() async{
     var res = await LogOut().postData('logout');
     var body = res.body;
-    print(body);
+    //print(body);
+    print("+--------------------------+");
+    print("Cierre de sesión, con éxito");
+    print("+--------------------------+");
     SharedPreferences localStorage = await SharedPreferences.getInstance();
-    localStorage.setString('token','');
-    localStorage.setString('user', '');
+    localStorage.clear();
+  }
+
+  Future<void> mostrar_datos() async{
+    SharedPreferences localStorage = await SharedPreferences.getInstance();
+    first_name = (await localStorage.get('first_name')) as String?;
+    last_name = (await localStorage.get('last_name')) as String?;
+    citizen_card = (await localStorage.get('citizen_card')) as String?;
+    email = (await localStorage.get('email')) as String?;
+    setState(() {
+
+    });
 
   }
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    mostrar_datos();
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -44,9 +76,9 @@ class perfil extends StatelessWidget {
           child: Column(
             children: [
               Container(
-                  margin: EdgeInsets.all(15),
-                  width: 180.0,
-                  height: 180.0,
+                  margin: EdgeInsets.all(0.5),
+                  width: 230.0,
+                  height: 230.0,
                   decoration: new BoxDecoration(
                       shape: BoxShape.circle,
                       image: new DecorationImage(
@@ -60,8 +92,8 @@ class perfil extends StatelessWidget {
               Row(
                 children: [
                   Icon(Icons.person),
-                  SizedBox(width: 10),
-                  Text('Elena Fernandez'),
+                  SizedBox(width: 15),
+                  Text(first_name!+' '+last_name!),
                 ],
               ),
 
@@ -69,16 +101,16 @@ class perfil extends StatelessWidget {
               Row(
                 children: [
                   Icon(Icons.credit_card_sharp),
-                  SizedBox(width: 10),
-                  Text('0123456789'),
+                  SizedBox(width: 15),
+                  Text(citizen_card!),
                 ],
               ),
               SizedBox(height: 10),
               Row(
                 children: [
                   Icon(Icons.mail),
-                  SizedBox(width: 10),
-                  Text('ee@gmail.com'),
+                  SizedBox(width: 15),
+                  Text(email!),
                 ],
               ),
               SizedBox(height: 10),
@@ -86,8 +118,8 @@ class perfil extends StatelessWidget {
               Row(
                 children: [
                   Icon(Icons.calendar_today_outlined),
-                  SizedBox(width: 10),
-                  Text('Se unió en Diciembre 2021'),
+                  SizedBox(width: 15),
+                  Text('Se unió en el 2022'),
                 ],
               ),
               SizedBox(height: 20),

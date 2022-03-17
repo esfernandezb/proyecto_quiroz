@@ -28,7 +28,7 @@ class page1 extends StatelessWidget {
                 RaisedButton(
                   disabledColor: Colors.orangeAccent,
                   color: Colors.orange,
-                  child: Text("Empieza",style: TextStyle(fontSize: 25,color: Colors.white),),
+                  child: Text("Let's go!",style: TextStyle(fontSize: 20,color: Colors.white),),
                     onPressed: () {
                       Navigator.push(
                         context,

@@ -54,7 +54,10 @@ class _registroState extends State<registro> {
     if(body['success']){
       SharedPreferences localStorage = await SharedPreferences.getInstance();
       localStorage.setString('token', body['data']['token']);
-      localStorage.setString('user', json.encode(body['user']));
+      localStorage.setString('first_name', body['data']['user']['first_name']);
+      localStorage.setString('last_name', body['data']['user']['last_name']);
+      localStorage.setString('citizen_card', body['data']['user']['citizen_card']);
+      localStorage.setString('email', body['data']['user']['email']);
       Navigator.push(
         context,
         MaterialPageRoute(builder: (context) => Home()),
@@ -268,7 +271,7 @@ class _registroState extends State<registro> {
                                   fontSize: 16),
                               controller: EmailController,
                               decoration: InputDecoration(
-                                hintText: 'Correo',
+                                hintText: 'Email',
                                 hintStyle: TextStyle(
                                     fontSize: 16.0, color: Colors.black),
                               ),

@@ -31,7 +31,7 @@ class _listaState extends State<lista> {
       },
     );
     var jsonData =jsonDecode(response.body);
-    print(jsonData);
+    //print(jsonData);
 
 
     for(var u in jsonData){

@@ -102,12 +102,15 @@ class _pedidoState extends State<pedido> {
       final resJson = jsonDecode(res.body);
       message = resJson['message'];
 
-      print(resJson);
+      //print(resJson);
 
       if(resJson['message'] != 'Order created successfully'){
         _showMsgError('Error al agregar producto');
       } else{
         _showMsg('Orden generada con éxito');
+        print("+-----------------------+");
+        print("Orden Generada con éxito");
+        print("+-----------------------+");
         Navigator.push(
           context,
           MaterialPageRoute(builder: (context) => Home()),

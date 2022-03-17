@@ -58,7 +58,13 @@ class _loginState extends State<login> {
       SharedPreferences localStorage = await SharedPreferences.getInstance();
 
       localStorage.setString('token', body['data']['token']);
-      localStorage.setString('user', json.encode(body['user']));
+      localStorage.setString('first_name', body['data']['user']['first_name']);
+      localStorage.setString('last_name', body['data']['user']['last_name']);
+      localStorage.setString('citizen_card', body['data']['user']['citizen_card']);
+      localStorage.setString('email', body['data']['user']['email']);
+      print("+--------------------------+");
+      print("Inicio de sesión, con éxito");
+      print("+--------------------------+");
       Navigator.push(
         context,
         MaterialPageRoute(builder: (context) => Home()),
@@ -109,7 +115,7 @@ class _loginState extends State<login> {
                           controller: EmailController,
                           style: TextStyle(color: Colors.black,fontSize: 16),
                           decoration: InputDecoration(
-                            hintText: 'Usuario',
+                            hintText: 'Email',
                             hintStyle: TextStyle(fontSize: 16.0, color: Colors.black),
                           ),
                         ),
