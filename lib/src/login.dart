@@ -132,7 +132,7 @@ class _loginState extends State<login> {
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: TextFormField(
-                          maxLength: 10,
+                          maxLength: 100,
                           validator: (value){
                             if (value!.isEmpty) {
                               return 'Por favor ingrese una contraseña';

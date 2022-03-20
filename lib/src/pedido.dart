@@ -27,7 +27,7 @@ class _pedidoState extends State<pedido> {
   TextEditingController _purchase_detail = TextEditingController();
   TextEditingController _order_date = TextEditingController();
   var img;
-  static final String _url = "http://192.168.1.10:8000/api/order";
+  static final String _url = "http://192.168.100.53:8000/api/order";
 
 
   final _formKey = GlobalKey<FormState>();

@@ -4,11 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
+import 'package:tarea4/src/ruta_pedido.dart';
 
 
 class lista extends StatefulWidget {
 
-  static final String _url = "http://192.168.1.10:8000/api/order";
+  static final String _url = "http://192.168.100.53:8000/api/order";
 
   @override
   State<lista> createState() => _listaState();
@@ -33,13 +34,16 @@ class _listaState extends State<lista> {
     var jsonData =jsonDecode(response.body);
     //print(jsonData);
 
-
     for(var u in jsonData){
       Map orden =
       {
         "id": u["id"],
+        "consignee": u["consignee"],
+        "carrier": u["carrier"],
+        "shipper": u["shipper"],
+        "total_price": u["total_price"],
+        "purchase_detail": u["purchase_detail"],
         "status": u["status"],
-        "carrier": u["carrier"]
       };
       ordenes.add(orden);
     }
@@ -71,34 +75,54 @@ class _listaState extends State<lista> {
                   ),
                 ),
               Text('ORDENES', style: TextStyle(fontSize: 30),),
-
-              (ordenes.isEmpty? CircularProgressIndicator():_createDataTable())
-
+              _createDataTable()
             ],
           ),
       ],
     );
   }
 
-  DataTable _createDataTable() {
-
+  _createDataTable() {
+    if (ordenes.isEmpty) {
+      return Text("No orders available");
+    }
     return DataTable(columns: _createColumns(), rows: _createRows());
   }
 
   List<DataColumn> _createColumns() {
     return [
-      DataColumn(label: Text('Orden')),
-      DataColumn(label: Text('Status')),
-      DataColumn(label: Text('Carrier'))
+      DataColumn(
+          label: Expanded(
+              child: Text(
+                'Order Code',
+                textAlign: TextAlign.center,
+              ))),
+      DataColumn(
+          label: Expanded(
+              child: Text(
+                'Status',
+                textAlign: TextAlign.center,
+              ))),
+      DataColumn(
+          label: Expanded(
+              child: Text(
+                'Carrier',
+                textAlign: TextAlign.center,
+              )))
     ];
   }
 
   List<DataRow> _createRows()  {
     return ordenes
         .map((orden) => DataRow(cells: [
-      DataCell(Text('#' + orden['id'].toString())),
-      DataCell(Text(orden['status'])),
-      DataCell(Text(orden['carrier']))
+      DataCell( Center(child: Text(orden['id'].toString()))),
+      DataCell( Center(child: Text(orden['status'].toString()))),
+      DataCell( Center(child: Text(orden['carrier'].toString())), onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => ruta_pedido(order: orden)),
+        );
+      } )
     ]))
         .toList();
   }

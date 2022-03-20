@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tarea4/src/login.dart';
 
 import '../models/slider_model.dart';
@@ -11,6 +12,7 @@ class page1 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     return ChangeNotifierProvider(
       create: (_) => new SliderModel(),
       child: Scaffold(
