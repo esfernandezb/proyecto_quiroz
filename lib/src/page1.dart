@@ -3,14 +3,17 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tarea4/src/login.dart';
 
 import '../models/slider_model.dart';
+import 'home.dart';
 
 class page1 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     return ChangeNotifierProvider(
       create: (_) => new SliderModel(),
       child: Scaffold(
@@ -28,12 +31,21 @@ class page1 extends StatelessWidget {
                 RaisedButton(
                   disabledColor: Colors.orangeAccent,
                   color: Colors.orange,
-                  child: Text("Empieza",style: TextStyle(fontSize: 25,color: Colors.white),),
+                  child: Text("Let's go!",style: TextStyle(fontSize: 20,color: Colors.white),),
                     onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => login()),
-                      );
+                      SharedPreferences.getInstance().then((value) {
+                        if(value.containsKey('token')) {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => Home()),
+                          );
+                        } else {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => login()),
+                          );
+                        }
+                      });
                     }
                 )
               ],
@@ -128,9 +140,9 @@ class __SlidesState extends State<_Slides> {
       child: PageView(
           controller: pageViewController,
           children: <Widget>[
-          _Slide('assets/svg/slide1.svg','Seleccionar sus productos'),
-      _Slide('assets/svg/slide2.svg','Pagar de forma Segura'),
-      _Slide('assets/svg/slide3.svg','Control de inicio y fin de la compra'),
+          _Slide('assets/svg/slide1.svg','Agregue sus pedidos'),
+      _Slide('assets/svg/slide2.svg','Administre sus compras'),
+      _Slide('assets/svg/slide3.svg','Empieza ya!'),
       ],
     ),
     );

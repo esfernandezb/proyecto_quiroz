@@ -8,7 +8,7 @@ class intro extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Timer(
-        Duration(seconds: 3),
+        Duration(seconds: 1),
             () =>
             Navigator.of(context).pushReplacement(MaterialPageRoute(
                 builder: (BuildContext context) =>  page1())));
@@ -16,8 +16,8 @@ class intro extends StatelessWidget {
       body: Center(
         child: ZoomOut(
           from:10,
-            duration: Duration(seconds: 4),
-            child: Image.asset('assets/jpg/dabf.png',width: 300, height: 300,)),
+            duration: Duration(seconds: 2),
+            child: Image.asset('assets/jpg/dabflogo.png',width: 100, height: 100,)),
       ),
     );
   }

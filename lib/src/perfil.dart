@@ -1,10 +1,54 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import '../services/sessions.dart';
+import 'intro.dart';
 
-import 'editar_perfil.dart';
+class perfil extends StatefulWidget {
 
-class perfil extends StatelessWidget {
   const perfil({Key? key}) : super(key: key);
+
+  @override
+  State<perfil> createState() => _perfilState();
+}
+
+class _perfilState extends State<perfil> {
+  String? first_name = "";
+
+  String? last_name="";
+
+  String? citizen_card ="";
+
+  String? email="";
+
+  String? joined_date = "";
+
+  _logout() async{
+    var res = await LogOut().postData('logout');
+    var body = res.body;
+    SharedPreferences localStorage = await SharedPreferences.getInstance();
+    localStorage.clear();
+  }
+
+  Future<void> mostrar_datos() async{
+    SharedPreferences localStorage = await SharedPreferences.getInstance();
+    first_name = (await localStorage.get('first_name')) as String?;
+    last_name = (await localStorage.get('last_name')) as String?;
+    citizen_card = (await localStorage.get('citizen_card')) as String?;
+    email = (await localStorage.get('email')) as String?;
+    joined_date = (await localStorage.get('joined_date')) as String?;
+    setState(() {
+
+    });
+
+  }
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    mostrar_datos();
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -31,9 +75,9 @@ class perfil extends StatelessWidget {
           child: Column(
             children: [
               Container(
-                  margin: EdgeInsets.all(15),
-                  width: 180.0,
-                  height: 180.0,
+                  margin: EdgeInsets.all(0.5),
+                  width: 230.0,
+                  height: 230.0,
                   decoration: new BoxDecoration(
                       shape: BoxShape.circle,
                       image: new DecorationImage(
@@ -47,8 +91,8 @@ class perfil extends StatelessWidget {
               Row(
                 children: [
                   Icon(Icons.person),
-                  SizedBox(width: 10),
-                  Text('Elena Fernandez'),
+                  SizedBox(width: 15),
+                  Text(first_name!+' '+last_name!),
                 ],
               ),
 
@@ -56,16 +100,16 @@ class perfil extends StatelessWidget {
               Row(
                 children: [
                   Icon(Icons.credit_card_sharp),
-                  SizedBox(width: 10),
-                  Text('0123456789'),
+                  SizedBox(width: 15),
+                  Text(citizen_card!),
                 ],
               ),
               SizedBox(height: 10),
               Row(
                 children: [
                   Icon(Icons.mail),
-                  SizedBox(width: 10),
-                  Text('ee@gmail.com'),
+                  SizedBox(width: 15),
+                  Text(email!),
                 ],
               ),
               SizedBox(height: 10),
@@ -73,15 +117,15 @@ class perfil extends StatelessWidget {
               Row(
                 children: [
                   Icon(Icons.calendar_today_outlined),
-                  SizedBox(width: 10),
-                  Text('Se unió en Diciembre 2021'),
+                  SizedBox(width: 15),
+                  Text(joined_date.toString()),
                 ],
               ),
               SizedBox(height: 20),
               RaisedButton(shape: new RoundedRectangleBorder(
                   borderRadius: new BorderRadius.circular(5.0)),
                 disabledColor: Colors.orange,
-                child: Text("Editar Perfil", style: TextStyle(
+                child: Text("Log out", style: TextStyle(
                     fontStyle: FontStyle.normal,
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
@@ -89,9 +133,10 @@ class perfil extends StatelessWidget {
                 splashColor: Colors.orange,
                 color: Colors.orange,
                 onPressed: () {
+                  _logout();
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => editar()),
+                    MaterialPageRoute(builder: (context) => intro()),
                   );
 
                 },
