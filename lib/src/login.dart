@@ -31,6 +31,19 @@ class _loginState extends State<login> {
     super.initState();
   }
 
+  _showMsg(msg){
+    final snackBar = SnackBar(
+      backgroundColor: const Color(0XFF363f93),
+      content: Text(msg),
+      action: SnackBarAction(
+        label: 'Close',
+        onPressed: ()  {
+        },
+      ),
+    );
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+  }
+
   _showMsgError(msg){
     final snackBar = SnackBar(
       backgroundColor: const Color(0xFFD50000),
@@ -52,19 +65,17 @@ class _loginState extends State<login> {
     var res = await CallApi().postData(data, 'login');
     var body = json.decode(res.body);
 
-    print(body);
-
     if(body['success']){
       SharedPreferences localStorage = await SharedPreferences.getInstance();
-
       localStorage.setString('token', body['data']['token']);
       localStorage.setString('first_name', body['data']['user']['first_name']);
       localStorage.setString('last_name', body['data']['user']['last_name']);
       localStorage.setString('citizen_card', body['data']['user']['citizen_card']);
       localStorage.setString('email', body['data']['user']['email']);
-      print("+--------------------------+");
-      print("Inicio de sesión, con éxito");
-      print("+--------------------------+");
+      localStorage.setString('joined_date', body['data']['user']['created_at']);
+
+      _showMsg('Bienvenido de nuevo, ' + body['data']['user']['first_name']);
+
       Navigator.push(
         context,
         MaterialPageRoute(builder: (context) => Home()),
@@ -102,7 +113,7 @@ class _loginState extends State<login> {
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: TextFormField(
-                          maxLength: 30,
+                          maxLength: 50,
                           validator: (value){
                             if (value!.isEmpty) {
                               return 'Por favor ingrese correo electrónico';

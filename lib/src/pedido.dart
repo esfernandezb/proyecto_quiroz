@@ -43,7 +43,6 @@ class _pedidoState extends State<pedido> {
   String? _path;
 
   File? selectedImage;
-  String? message = "";
   String? date ="";
 
   _showMsg(msg){
@@ -76,7 +75,7 @@ class _pedidoState extends State<pedido> {
     return token;
   }
 
-  uploadImage() async{
+  agregarPedido() async{
       if(selectedImage == null){
         _showMsgError('Agregue la imagen de su factura');
       };
@@ -93,24 +92,18 @@ class _pedidoState extends State<pedido> {
       request.fields['purchase_detail'] = _purchase_detail.text;
       request.fields['order_date']= selectedDate.toString();
       request.files.add(
-
         http.MultipartFile('invoice_file', selectedImage!.readAsBytes().asStream(),selectedImage!.lengthSync(),
             filename:selectedImage!.path.split("/").last));
       request.headers.addAll(headers);
       final response = await request.send();
       http.Response res = await http.Response.fromStream(response);
       final resJson = jsonDecode(res.body);
-      message = resJson['message'];
 
-      //print(resJson);
-
-      if(resJson['message'] != 'Order created successfully'){
-        _showMsgError('Error al agregar producto');
+      if(resJson['status'] == false){
+        _showMsgError('Error al agregar pedido');
       } else{
-        _showMsg('Orden generada con éxito');
-        print("+-----------------------+");
-        print("Orden Generada con éxito");
-        print("+-----------------------+");
+        _showMsg('Pedido agregado con éxito');
+
         Navigator.push(
           context,
           MaterialPageRoute(builder: (context) => Home()),
@@ -119,9 +112,7 @@ class _pedidoState extends State<pedido> {
       setState(() {
 
       });
-
   }
-
 
   Future<void> _openCameraPicker() async {
     final XFile? pickedImage =
@@ -368,6 +359,45 @@ class _pedidoState extends State<pedido> {
                               .of(context)
                               .size
                               .width,
+                          height: 50,
+                          decoration: BoxDecoration(
+                              border: Border.all(color: Colors.white30),
+                              color: Colors.white12,
+                              borderRadius: BorderRadius.circular(5.0)
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(5.0),
+                            child: TextFormField(
+                              maxLength: 20,
+                              validator: (value){
+                                if (value!.isEmpty) {
+                                  return 'Por favor ingrese los datos';
+                                }
+                              },
+                              style: TextStyle(color: Colors.black,
+                                  fontSize: 16),
+                              keyboardType: TextInputType.text,
+                              controller: _purchase_detail,
+                              //This will obscure text dynamically
+                              decoration: InputDecoration(
+                                hintText: 'Detalle Compra',
+                                hintStyle: TextStyle(
+                                    fontSize: 16.0, color: Colors.black),
+                                // Here is key idea
+
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+
+                      Padding(
+                        padding: const EdgeInsets.all(5.0),
+                        child: Container(
+                          width: MediaQuery
+                              .of(context)
+                              .size
+                              .width,
                           height:400,
                           decoration: BoxDecoration(
                               border: Border.all(color: Colors.white30),
@@ -410,44 +440,6 @@ class _pedidoState extends State<pedido> {
                           ),
                         ),
                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(5.0),
-                        child: Container(
-                          width: MediaQuery
-                              .of(context)
-                              .size
-                              .width,
-                          height: 50,
-                          decoration: BoxDecoration(
-                              border: Border.all(color: Colors.white30),
-                              color: Colors.white12,
-                              borderRadius: BorderRadius.circular(5.0)
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.all(5.0),
-                            child: TextFormField(
-                              maxLength: 20,
-                              validator: (value){
-                                if (value!.isEmpty) {
-                                  return 'Por favor ingrese los datos';
-                                }
-                              },
-                              style: TextStyle(color: Colors.black,
-                                  fontSize: 16),
-                              keyboardType: TextInputType.text,
-                              controller: _purchase_detail,
-                              //This will obscure text dynamically
-                              decoration: InputDecoration(
-                                hintText: 'Detalle Compra',
-                                hintStyle: TextStyle(
-                                    fontSize: 16.0, color: Colors.black),
-                                // Here is key idea
-
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
                       SizedBox(height: 30,),
                       Container(
                         width: MediaQuery
@@ -468,7 +460,7 @@ class _pedidoState extends State<pedido> {
                             splashColor: Colors.orange,
                             color: Colors.orange,
                             onPressed: () {
-                              uploadImage();
+                              agregarPedido();
                             if (_formKey.currentState!.validate()) {
                               }
                             },

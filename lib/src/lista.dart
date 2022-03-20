@@ -74,7 +74,12 @@ class _listaState extends State<lista> {
                   child: SvgPicture.asset('assets/svg/slide4.svg'),
                   ),
                 ),
-              Text('ORDENES', style: TextStyle(fontSize: 30),),
+              Text('Pedidos', style: TextStyle(fontSize: 30),),
+              SizedBox( height: 12,),
+              Text('Total: ' + ordenes.length.toString(),
+                textAlign: TextAlign.left,
+                style: TextStyle(fontSize: 15),),
+              SizedBox( height: 12,),
               _createDataTable()
             ],
           ),
@@ -84,7 +89,9 @@ class _listaState extends State<lista> {
 
   _createDataTable() {
     if (ordenes.isEmpty) {
-      return Text("No orders available");
+      return Text('Sin pedidos hasta el momento',
+        textAlign: TextAlign.left,
+        style: TextStyle(fontSize: 15),);
     }
     return DataTable(columns: _createColumns(), rows: _createRows());
   }

@@ -21,13 +21,11 @@ class _perfilState extends State<perfil> {
 
   String? email="";
 
+  String? joined_date = "";
+
   _logout() async{
     var res = await LogOut().postData('logout');
     var body = res.body;
-    //print(body);
-    print("+--------------------------+");
-    print("Cierre de sesión, con éxito");
-    print("+--------------------------+");
     SharedPreferences localStorage = await SharedPreferences.getInstance();
     localStorage.clear();
   }
@@ -38,6 +36,7 @@ class _perfilState extends State<perfil> {
     last_name = (await localStorage.get('last_name')) as String?;
     citizen_card = (await localStorage.get('citizen_card')) as String?;
     email = (await localStorage.get('email')) as String?;
+    joined_date = (await localStorage.get('joined_date')) as String?;
     setState(() {
 
     });
@@ -119,7 +118,7 @@ class _perfilState extends State<perfil> {
                 children: [
                   Icon(Icons.calendar_today_outlined),
                   SizedBox(width: 15),
-                  Text('Se unió en el 2022'),
+                  Text(joined_date.toString()),
                 ],
               ),
               SizedBox(height: 20),

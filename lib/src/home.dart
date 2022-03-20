@@ -28,36 +28,41 @@ class _HomeState extends State {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: _pageOptions[selectedpage], // initial value is 0 so HomePage will be shown
-      bottomNavigationBar: CurvedNavigationBar(
-        height: 50,
-        buttonBackgroundColor: Colors.deepOrange,
-        backgroundColor: bgcolor[selectedpage],
-        color: Colors.white,
-        animationCurve: Curves.linearToEaseOut,
-        items: <Widget>[
-          Icon(
-            Icons.list_alt_outlined,
-            size: 30,
-            color: Colors.black,
-          ),
-          Icon(
-            Icons.add,
-            size: 30,
-            color: Colors.black,
-          ),
-          Icon(
-            Icons.person,
-            size: 30,
-            color: Colors.black,
-          )
-        ],
-        onTap: (index) {
-          setState(() {
-            selectedpage = index;  // changing selected page as per bar index selected by the user
-          });
-        },
+    return WillPopScope(
+      onWillPop: () async {
+        return false;
+      },
+      child: Scaffold(
+        body: _pageOptions[selectedpage], // initial value is 0 so HomePage will be shown
+        bottomNavigationBar: CurvedNavigationBar(
+          height: 50,
+          buttonBackgroundColor: Colors.deepOrange,
+          backgroundColor: bgcolor[selectedpage],
+          color: Colors.white,
+          animationCurve: Curves.linearToEaseOut,
+          items: <Widget>[
+            Icon(
+              Icons.list_alt_outlined,
+              size: 30,
+              color: Colors.black,
+            ),
+            Icon(
+              Icons.add,
+              size: 30,
+              color: Colors.black,
+            ),
+            Icon(
+              Icons.person,
+              size: 30,
+              color: Colors.black,
+            )
+          ],
+          onTap: (index) {
+            setState(() {
+              selectedpage = index;  // changing selected page as per bar index selected by the user
+            });
+          },
+        ),
       ),
     );
   }

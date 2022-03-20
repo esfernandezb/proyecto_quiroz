@@ -38,6 +38,23 @@ class _registroState extends State<registro> {
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 
+  _showMsgError(Map errors){
+    var finalErrorMessage = '';
+    errors.values.forEach((element) {
+      finalErrorMessage += '\n' + element;
+    });
+    final snackBar = SnackBar(
+      backgroundColor: const Color(0xFFD50000),
+      content: Text(finalErrorMessage),
+      action: SnackBarAction(
+        label: 'Close',
+        onPressed: ()  {
+        },
+      ),
+    );
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+  }
+
   _register() async {
     var data = {
       'citizen_card': CedulaController.text,
@@ -49,8 +66,6 @@ class _registroState extends State<registro> {
     var res = await CallApi().postData(data, 'signup');
     var body = json.decode(res.body);
 
-
-    print(body);
     if(body['success']){
       SharedPreferences localStorage = await SharedPreferences.getInstance();
       localStorage.setString('token', body['data']['token']);
@@ -58,12 +73,16 @@ class _registroState extends State<registro> {
       localStorage.setString('last_name', body['data']['user']['last_name']);
       localStorage.setString('citizen_card', body['data']['user']['citizen_card']);
       localStorage.setString('email', body['data']['user']['email']);
+      localStorage.setString('joined_date', body['data']['user']['created_at']);
+
+      _showMsg('Bienvenido, ' + body['data']['user']['first_name']);
+
       Navigator.push(
         context,
         MaterialPageRoute(builder: (context) => Home()),
       );
     } else{
-      _showMsg(body['message']);
+      _showMsgError(body['data']);
     }
 
   }
@@ -114,7 +133,7 @@ class _registroState extends State<registro> {
                                 color: Colors.white
                                 ,),
                               Text(
-                                'Registrate para ver tus trackings y estado de tus pedidos',
+                                'Registrate y administra tus pedidos desde ahora',
                                 style: TextStyle(color: Colors.white,
                                     fontSize: 20,
                                     fontWeight: FontWeight.w900),
@@ -142,7 +161,7 @@ class _registroState extends State<registro> {
                           child: Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: TextFormField(
-                              maxLength: 20,
+                              maxLength: 100,
                               validator: (value){
                                 if (value!.isEmpty) {
                                   return 'Por favor ingrese su nombre';
@@ -179,7 +198,7 @@ class _registroState extends State<registro> {
                           child: Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: TextFormField(
-                              maxLength: 20,
+                              maxLength: 100,
                               validator: (value){
                                 if (value!.isEmpty) {
                                   return 'Por favor ingrese su apellido';
@@ -257,7 +276,7 @@ class _registroState extends State<registro> {
                           child: Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: TextFormField(
-                              maxLength: 30,
+                              maxLength: 50,
                               validator: (value){
                                 if (value!.isEmpty) {
                                   return 'Por favor ingrese correo electrónico';
@@ -297,7 +316,7 @@ class _registroState extends State<registro> {
                           child: Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: TextFormField(
-                              maxLength: 10,
+                              maxLength: 100,
                               validator: (value){
                                 if (value!.isEmpty) {
                                   return 'Por favor ingrese una contraseña';

@@ -7,6 +7,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tarea4/src/login.dart';
 
 import '../models/slider_model.dart';
+import 'home.dart';
 
 class page1 extends StatelessWidget {
 
@@ -32,10 +33,19 @@ class page1 extends StatelessWidget {
                   color: Colors.orange,
                   child: Text("Let's go!",style: TextStyle(fontSize: 20,color: Colors.white),),
                     onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => login()),
-                      );
+                      SharedPreferences.getInstance().then((value) {
+                        if(value.containsKey('token')) {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => Home()),
+                          );
+                        } else {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => login()),
+                          );
+                        }
+                      });
                     }
                 )
               ],
@@ -130,9 +140,9 @@ class __SlidesState extends State<_Slides> {
       child: PageView(
           controller: pageViewController,
           children: <Widget>[
-          _Slide('assets/svg/slide1.svg','Seleccionar sus productos'),
-      _Slide('assets/svg/slide2.svg','Pagar de forma Segura'),
-      _Slide('assets/svg/slide3.svg','Control de inicio y fin de la compra'),
+          _Slide('assets/svg/slide1.svg','Agregue sus pedidos'),
+      _Slide('assets/svg/slide2.svg','Administre sus compras'),
+      _Slide('assets/svg/slide3.svg','Empieza ya!'),
       ],
     ),
     );
