@@ -267,10 +267,10 @@ class _registroState extends State<registro> {
 
                               },
                               keyboardType: TextInputType.emailAddress,
-                              style: TextStyle(color: Colors.black,
+                              style: const TextStyle(color: Colors.black,
                                   fontSize: 16),
                               controller: EmailController,
-                              decoration: InputDecoration(
+                              decoration: const InputDecoration(
                                 hintText: 'Email',
                                 hintStyle: TextStyle(
                                     fontSize: 16.0, color: Colors.black),
@@ -303,7 +303,7 @@ class _registroState extends State<registro> {
                                   return 'Por favor ingrese una contraseña';
                                 }
                               },
-                              style: TextStyle(color: Colors.black,
+                              style: const TextStyle(color: Colors.black,
                                   fontSize: 16),
                               keyboardType: TextInputType.text,
                               obscureText: passwordVisible,
@@ -311,7 +311,7 @@ class _registroState extends State<registro> {
                               //This will obscure text dynamically
                               decoration: InputDecoration(
                                 hintText: 'Contraseña',
-                                hintStyle: TextStyle(
+                                hintStyle: const TextStyle(
                                     fontSize: 16.0, color: Colors.black),
                                 // Here is key idea
                                 suffixIcon: IconButton(
