@@ -1,6 +1,8 @@
 import 'dart:convert';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 
@@ -77,41 +79,111 @@ class _ruta_pedidoState extends State<ruta_pedido>
     }
 
     return Scaffold(
+
       body: Container(
-        color: Colors.white70,
+        color: Colors.white54,
         child: ListView(
             children: <Widget>[
               Form(
                 child: Column(
                     children: <Widget>[
-                      SizedBox(height: 10,),
-
-                      Padding(
-                            padding: const EdgeInsets.all(5.0),
-                            child: Text("Consignee: " + widget.order["consignee"])
+                      Container(height: 150,
+                        width: MediaQuery.of(context).size.width,
+                        decoration: const BoxDecoration(
+                          gradient: LinearGradient(
+                            begin: Alignment.topCenter,
+                            end: Alignment.bottomCenter,
+                            stops: [0.1, 0.5],
+                            colors: [
+                              Color(0xFFFF422C),
+                              Color(0xFFFF9003),
+                            ],
                           ),
+                          borderRadius: BorderRadius.only(
+                              bottomLeft: Radius.circular(100.0)),
+                        ),
+                        child: SvgPicture.asset('assets/svg/slide3.svg'),
 
-                     Padding(
-                            padding: const EdgeInsets.all(5.0),
-                            child: Text("Carrier: " + widget.order["carrier"])
-                          ),
+                      ),
+                     Container(
+                       margin: EdgeInsets.all(30),
+                       width:300,
+                       height:400,
+                       decoration: BoxDecoration(
+                         borderRadius: BorderRadius.circular(20),
+                         gradient: const LinearGradient(
+                           colors: [
+                             Color(0xFFFFCC80),
+                             Colors.orangeAccent,
+                           ],
+                           begin: Alignment.topCenter,
+                           end: Alignment.bottomCenter,
+                           stops: [0.25, 0.90],
+                         ),
+                         boxShadow: const [
+                           BoxShadow(
+                             color: Colors.deepOrangeAccent,
+                             offset: Offset(-12, 12),
+                             blurRadius: 8,
+                           ),
+                         ],
+                       ),
+                        //to align its child
 
-                         Padding(
-                            padding: const EdgeInsets.all(5.0),
-                            child: Text("Shipper: " + widget.order["shipper"])
-                          ),
 
-                     Padding(
-                            padding: const EdgeInsets.all(5.0),
-                            child: Text("Valor de la compra: " + widget.order["total_price"])
+                         child: Container(
+                           padding: const EdgeInsets.only(top: 10, left: 20.0, right: 20.0, bottom: 10),
+                           child: Row(
+                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                             children: [
+                               Column(
+                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                 children: const [
+                                   Text("Consignee:    ",style: TextStyle(fontSize: 15,fontWeight: FontWeight.w600),textAlign: TextAlign.start,)
+                                   ,
+
+
+                                   Text("Carrier:         ",style: TextStyle(fontSize: 15,fontWeight: FontWeight.w600),textDirection: TextDirection.ltr),
+
+                                    Text("Shipper:        ",style: TextStyle(fontSize: 15,fontWeight: FontWeight.w600),textDirection: TextDirection.ltr)
+                                   ,
+                                    Text("Valor compra: ",style: TextStyle(fontSize: 15,fontWeight: FontWeight.w600),textDirection: TextDirection.ltr)
+                                   ,
+
+
+                                   Text("Order details: ",style: TextStyle(fontSize: 15,fontWeight: FontWeight.w600),textAlign: TextAlign.start)
+                                   ,
+
+                                 ],
+                               ),
+                               Expanded(
+                                 child: Column(
+                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                   children: [
+                                     Text(widget.order["consignee"],style: TextStyle(fontSize: 15,),textDirection: TextDirection.ltr, maxLines: 2, overflow: TextOverflow.ellipsis,)
+                                     ,
+
+
+                                     Text(widget.order["carrier"],style: TextStyle(fontSize: 15),textDirection: TextDirection.ltr, maxLines: 2, overflow: TextOverflow.ellipsis,),
+
+                                     Text(widget.order["shipper"],style: TextStyle(fontSize: 15),textDirection: TextDirection.ltr, maxLines: 2, overflow: TextOverflow.ellipsis,)
+                                     ,
+                                     Text(widget.order["total_price"],style: TextStyle(fontSize: 15),textDirection: TextDirection.ltr, overflow: TextOverflow.ellipsis,)
+                                     ,
+
+
+                                     Text(widget.order["purchase_detail"],style: TextStyle(fontSize: 15),textDirection: TextDirection.ltr, maxLines: 3, overflow: TextOverflow.ellipsis,)
+                                     ,
+
+                                   ],
+                                 ),
+                               ),
+                             ],
+
+                           ),
+                         ),
+
                      ),
-
-
-                     Padding(
-                            padding: const EdgeInsets.all(5.0),
-                            child: Text("Order details: " + widget.order["purchase_detail"])
-                          ),
-
                       SizedBox(height: 30,),
 
                       Container(
